@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
   status: Status = 'idle';
   loadingCountry = false;
   checkingAnswer = false;
-  view: 'welcome' | 'game' | 'admin' = 'welcome';
+  view: 'welcome' | 'game' | 'leaderboard' | 'admin' = 'welcome';
 
   constructor(private gameService: GameService, private scoreService: ScoreService, private adminService: AdminService) { }
 
@@ -363,6 +363,23 @@ export class AppComponent implements OnInit {
     this.score = 0;
     this.view = 'game';
     this.loadQuestion();
+  }
+
+  openLeaderboard(): void {
+    if (this.isAdmin) {
+      this.view = 'admin';
+      return;
+    }
+    this.refreshLeaderboard();
+    this.view = 'leaderboard';
+  }
+
+  backFromLeaderboard(): void {
+    if (this.isAdmin) {
+      this.view = 'admin';
+      return;
+    }
+    this.view = 'welcome';
   }
 
   backToMenu(): void {

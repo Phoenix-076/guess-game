@@ -1,6 +1,7 @@
 <ng-container *ngIf="usernameReady; else registrationPage">
   <ng-container *ngIf="!isAdmin; else adminPage">
-  <div class="page-shell" *ngIf="view === 'welcome'; else gameView">
+  <ng-container [ngSwitch]="view">
+  <div class="page-shell" *ngSwitchCase="'welcome'">
     <header class="hero">
       <div class="top-row">
         <div>
@@ -46,13 +47,14 @@
         </div>
         <div class="actions">
           <button type="button" class="primary" (click)="startGame()">Start game</button>
+          <button type="button" class="ghost" (click)="openLeaderboard()">View leaderboard</button>
         </div>
       </div>
     </section>
 
   </div>
 
-  <ng-template #gameView>
+  <ng-template ngSwitchCase="game">
     <div class="page-shell">
       <header class="hero">
         <div class="top-row">
@@ -149,7 +151,56 @@
       </ng-template>
     </div>
   </ng-template>
-</ng-container>
+
+  <ng-template ngSwitchCase="leaderboard">
+    <div class="page-shell">
+      <header class="hero">
+        <div class="top-row">
+          <div>
+            <div class="badge">Emoji Trail</div>
+            <h1>Leaderboard</h1>
+            <p class="lede">Top players across all modes. Up to 10 entries.</p>
+          </div>
+          <div class="user-card">
+            <div class="label">Signed in as</div>
+            <div class="user-score only">
+              <span class="hint-index">{{ username }}</span>
+              <span class="hint-text">All-time best {{ bestScore || 0 }}</span>
+            </div>
+            <div class="actions">
+              <button type="button" class="ghost" (click)="refreshLeaderboard()">Refresh</button>
+              <button type="button" class="ghost" (click)="backFromLeaderboard()">Back</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="leaderboard" *ngIf="leaderboard?.length; else emptyBoard">
+        <div class="leaderboard-header">
+          <h2>Top 10</h2>
+        </div>
+        <div class="leaderboard-list">
+          <div class="leaderboard-row" *ngFor="let entry of leaderboard; let i = index" [class.me]="entry.username.toLowerCase() === username.toLowerCase()">
+            <span class="rank">#{{ i + 1 }}</span>
+            <span class="name">{{ entry.username }}</span>
+            <span class="score">{{ entry.totalScore }}</span>
+          </div>
+        </div>
+      </section>
+
+      <ng-template #emptyBoard>
+        <div class="loading-card">
+          <p>No scores yet. Play a round to get on the board!</p>
+          <div class="actions">
+            <button type="button" class="primary" (click)="backFromLeaderboard()">Back to menu</button>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+
+	  </ng-container>
+	</ng-container>
 </ng-container>
 
 <ng-template #adminPage>
