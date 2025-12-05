@@ -1,0 +1,96 @@
+INSERT INTO countries (name, emoji, hints, difficulty) VALUES
+-- Easy (20)
+('United States', '🦅🗽🍔', 'Statue of Liberty; Bald eagle; Baseball and burgers', 'easy'),
+('Canada', '🍁🏒⛷️', 'Maple leaf; Hockey nation; Northern neighbor of USA', 'easy'),
+('Brazil', '🌴⚽🟢🟡', 'Amazon rainforest; Samba; Football powerhouse', 'easy'),
+('France', '🗼🥐🍷', 'Eiffel Tower; Croissants; Famous wine regions', 'easy'),
+('United Kingdom', '🎡🎩☔', 'Big Ben; Double-decker buses; Tea time', 'easy'),
+('Germany', '🍺🏰🚗', 'Oktoberfest; Castles; Autobahn', 'easy'),
+('Italy', '🍕🎭🕍', 'Boot-shaped; Pizza and pasta; Rome and Venice', 'easy'),
+('Spain', '💃🥘⚽', 'Flamenco dance; Paella; La Liga football', 'easy'),
+('Japan', '🗻🍣🗼', 'Mount Fuji; Sushi; Tokyo tower', 'easy'),
+('China', '🐉🥟🏮', 'Great Wall; Dumplings; Lantern festivals', 'easy'),
+('India', '🕌🕉️🎉', 'Taj Mahal; Spices; Colorful festivals', 'easy'),
+('Australia', '🦘🏄‍♂️🌊', 'Kangaroos; Surf culture; Island continent', 'easy'),
+('Mexico', '🌮🪅🕌', 'Tacos and mariachi; Chichen Itza; Day of the Dead', 'easy'),
+('South Korea', '🎶🍲🏙️', 'K-pop and K-dramas; Kimchi; Seoul skyline', 'easy'),
+('Argentina', '🥩🧉⚽', 'Tango; Steak and mate; Patagonia', 'easy'),
+('Egypt', '🔺🏺🐪', 'Pyramids; Nile River; Desert camels', 'easy'),
+('Turkey', '🕌🦃🧿', 'Bridges Europe and Asia; Cappadocia balloons; Turkish delight', 'easy'),
+('Greece', '🏛️🥗🏖️', 'Ancient ruins; Mediterranean diet; Aegean isles', 'easy'),
+('Sweden', '❄️🧇🎿', 'Nordic nation; Flat-pack furniture; Winters and skiing', 'easy'),
+('Netherlands', '🌷🚲🧀', 'Tulips; Bicycles; Famous cheeses', 'easy');
+
+-- Medium (20)
+INSERT INTO countries (name, emoji, hints, difficulty) VALUES
+('Portugal', '🧭⛵🍷', 'Atlantic coast; Pastel de nata; Cristiano Ronaldo', 'medium'),
+('Switzerland', '⛰️🧀⌚', 'Alps; Chocolate and cheese; Famous watches', 'medium'),
+('Austria', '🎶⛰️🍰', 'Alpine country; Classical music heritage; Sachertorte cake', 'medium'),
+('Belgium', '🍫🧇🏰', 'Chocolate and waffles; EU hub; Medieval towns', 'medium'),
+('Norway', '🛶❄️🗻', 'Fjords; Northern lights; Viking heritage', 'medium'),
+('Denmark', '🚲🧱👑', 'Copenhagen bikes; Lego origin; Royal palaces', 'medium'),
+('Ireland', '☘️🎻🍺', 'Emerald Isle; Guinness; Traditional fiddle music', 'medium'),
+('Poland', '🧭🏰🥟', 'Pierogi dumplings; Baltic neighbor; Historic Krakow', 'medium'),
+('Czechia', '🍺🏰🎭', 'Prague castles; Pilsner beer; Bohemian culture', 'medium'),
+('Hungary', '🌶️♨️🎹', 'Paprika; Thermal baths; Capital split by the Danube', 'medium'),
+('South Africa', '🦁⛰️🏉', 'Safari Big Five; Table Mountain; Rugby Springboks', 'medium'),
+('Kenya', '🦒🏃‍♂️🌅', 'Savannah safaris; Long-distance runners; Rift Valley', 'medium'),
+('Morocco', '🕌🫖🏜️', 'Sahara dunes; Mint tea; Marrakesh markets', 'medium'),
+('Thailand', '🏝️🐘🍜', 'Tropical beaches; Elephants; Street food bowls', 'medium'),
+('Vietnam', '🍜⛰️🛶', 'Pho noodle soup; Ha Long Bay; Mekong boats', 'medium'),
+('Indonesia', '🌋🏝️🦧', 'Island archipelago; Volcanoes; Komodo and orangutans', 'medium'),
+('Philippines', '🏖️🏝️🎤', '7000+ islands; Pristine beaches; Karaoke culture', 'medium'),
+('Malaysia', '🕌🌿🍛', 'Twin Towers; Rainforests; Nasi lemak', 'medium'),
+('Singapore', '🦁🌉🍜', 'Lion city; Marina skyline; Hawker centers', 'medium'),
+('New Zealand', '🧙‍♂️⛰️🏉', 'Middle-earth scenery; Maori culture; Rugby All Blacks', 'medium');
+
+-- Hard (20)
+INSERT INTO countries (name, emoji, hints, difficulty) VALUES
+('Chile', '🌶️⛰️🍷', 'Long Pacific coastline; Andes spine; Atacama desert', 'hard'),
+('Peru', '🦙⛰️🏛️', 'Machu Picchu; Llamas; Inca heritage', 'hard'),
+('Colombia', '☕🌄🎶', 'Coffee region; Andes and Amazon; Cumbia rhythms', 'hard'),
+('Venezuela', '🛢️🏞️🎺', 'Angel Falls; Orinoco delta; Arepas and oil', 'hard'),
+('Saudi Arabia', '🕌🏜️🛢️', 'Desert kingdom; Oil wealth; Red Sea coast', 'hard'),
+('United Arab Emirates', '🏙️🏝️🛍️', 'Desert skyscrapers; Palm islands; Luxury malls', 'hard'),
+('Qatar', '🏟️🛢️🏜️', 'Doha skyline; World Cup host; Gas-rich', 'hard'),
+('Israel', '🕍🌊🕊️', 'Historic holy sites; Dead Sea; Startup nation', 'hard'),
+('Jordan', '🏜️🏛️🧂', 'Petra stone city; Wadi Rum desert; Dead Sea shores', 'hard'),
+('Lebanon', '🌊🌲🥙', 'Cedars; Mediterranean coast; Mezze cuisine', 'hard'),
+('Pakistan', '⛰️🕌🍛', 'K2 peaks; Indus Valley; Spiced curries', 'hard'),
+('Bangladesh', '🐅🌾🌊', 'Sundarbans tigers; Delta nation; Jute and rice', 'hard'),
+('Nepal', '⛰️🙏🕉️', 'Himalayas; Mount Everest; Prayer flags', 'hard'),
+('Sri Lanka', '🫖🐘🏝️', 'Ceylon tea; Elephants; Indian Ocean island', 'hard'),
+('Myanmar', '🛕⛰️🍜', 'Bagan pagodas; Irrawaddy; Mohinga soup', 'hard'),
+('Cambodia', '🛕🌾🛶', 'Angkor Wat; Tonle Sap; Khmer heritage', 'hard'),
+('Laos', '🛶⛰️⛩️', 'Mekong river life; Luang Prabang; Landlocked SE Asia', 'hard'),
+('Finland', '❄️🧖‍♂️🦌', 'Saunas; Northern lights; Reindeer', 'hard'),
+('Iceland', '🔥❄️🧊', 'Volcanoes and glaciers; Geysers; Blue Lagoon', 'hard'),
+('Romania', '🧛‍♂️🏰🌲', 'Transylvania; Carpathian forests; Danube delta', 'hard');
+
+-- Legend (20)
+INSERT INTO countries (name, emoji, hints, difficulty) VALUES
+('Ukraine', '🌻🛡️🏛️', 'Sunflower fields; Kyiv golden domes; Breadbasket plains', 'legend'),
+('Belarus', '🌲🚜🏛️', 'Land of forests; Minsk; Eastern Europe neighbor', 'legend'),
+('Lithuania', '🏀🏰🌲', 'Baltic state; Vilnius old town; Strong hoops culture', 'legend'),
+('Latvia', '🌲🎻⛵', 'Riga art nouveau; Baltic shores; Song festivals', 'legend'),
+('Estonia', '💻🌲🏰', 'Digital-first nation; Tallin walls; Baltic forests', 'legend'),
+('Slovakia', '⛰️🏰🎿', 'Tatras peaks; Castles; Central Europe', 'legend'),
+('Slovenia', '🏞️⛵🏰', 'Lake Bled; Alpine meets Adriatic; Ljubljana', 'legend'),
+('Croatia', '🏖️⚓🏰', 'Dalmatian coast; Game of Thrones sites; Adriatic ports', 'legend'),
+('Serbia', '🎸🏰🌊', 'Belgrade confluence; Balkan beats; Orthodox heritage', 'legend'),
+('Bosnia and Herzegovina', '⛰️🏞️🕌', 'Sarajevo; Stari Most bridge; Balkan mountains', 'legend'),
+('Albania', '🏖️🦅⛰️', 'Double-headed eagle; Ionian beaches; Rugged peaks', 'legend'),
+('Bulgaria', '🌹🏛️⛰️', 'Rose oil; Black Sea; Thracian history', 'legend'),
+('Tunisia', '🏖️🏜️🏛️', 'Sahara sands; Carthage ruins; Mediterranean coast', 'legend'),
+('Algeria', '🏜️⛰️🏛️', 'Sahara expanse; Atlas mountains; Roman ruins', 'legend'),
+('Ethiopia', '☕🗻🕍', 'Birthplace of coffee; Highlands; Ancient churches', 'legend'),
+('Tanzania', '🦁⛰️🏝️', 'Serengeti safaris; Kilimanjaro; Zanzibar', 'legend'),
+('Uganda', '🦍🌊⛰️', 'Mountain gorillas; Source of the Nile; Rwenzori', 'legend'),
+('Ghana', '⭐🏖️🎶', 'Gold Coast; Highlife music; West Africa hub', 'legend'),
+('Nigeria', '🎬🛢️🏟️', 'Nollywood films; Oil rich; Lagos mega-city', 'legend'),
+('Zimbabwe', '🦓🏞️💎', 'Victoria Falls; Great Zimbabwe ruins; Land of stone', 'legend');
+
+INSERT INTO scores (username, password, total_score, role) VALUES
+  ('demo', 'demo', 3, 'PLAYER'),
+  ('emoji_wizard', 'wizard', 7, 'PLAYER'),
+  ('guessmaster', 'guess', 5, 'PLAYER');

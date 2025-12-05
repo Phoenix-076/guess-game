@@ -1,0 +1,298 @@
+<ng-container *ngIf="usernameReady; else registrationPage">
+  <ng-container *ngIf="!isAdmin; else adminPage">
+  <div class="page-shell" *ngIf="view === 'welcome'; else gameView">
+    <header class="hero">
+      <div class="top-row">
+        <div>
+          <div class="badge">Emoji Trail</div>
+          <h1>Choose your challenge</h1>
+          <p class="lede">
+            Select a difficulty to start. Hard & Legend deduct 2 points for wrong answers.
+          </p>
+        </div>
+        <div class="user-card">
+          <div class="label">Signed in as</div>
+          <div class="user-score only">
+            <span class="hint-index">{{ username }}</span>
+            <span class="hint-text">All-time best {{ bestScore || 0 }}</span>
+          </div>
+          <button type="button" class="ghost" (click)="switchAccount()">Switch account</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="game-card full">
+      <div class="content">
+        <div class="meta-row">
+          <span class="pill">Difficulty</span>
+          <span class="meta-text">Pick one to begin</span>
+        </div>
+        <div class="level-buttons stack">
+          <button type="button" class="choice" [class.active]="level === 'easy'" (click)="selectLevel('easy')">
+            <div class="row"><strong>Easy</strong><span class="desc">1 point per correct</span></div>
+          </button>
+          <button type="button" class="choice" [class.active]="level === 'medium'" (click)="selectLevel('medium')">
+            <div class="row"><strong>Medium</strong><span class="desc">2 points per correct</span></div>
+          </button>
+          <button type="button" class="choice" [class.active]="level === 'hard'" (click)="selectLevel('hard')">
+            <div class="row"><strong>Hard</strong><span class="desc">4 points correct, -2 for wrong</span></div>
+          </button>
+          <button type="button" class="choice" [class.active]="level === 'legend'" (click)="selectLevel('legend')">
+            <div class="row"><strong>Legend</strong><span class="desc">8 points correct, -2 for wrong</span></div>
+          </button>
+        </div>
+        <div class="warning" *ngIf="level === 'hard' || level === 'legend'">
+          ⚠ Hard & Legend will deduct 2 points for each wrong answer.
+        </div>
+        <div class="actions">
+          <button type="button" class="primary" (click)="startGame()">Start game</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <ng-template #gameView>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="top-row">
+          <div>
+            <div class="badge">Emoji Trail</div>
+            <h1>{{ level | titlecase }} mode</h1>
+            <p class="lede">
+              Score: {{ score }} | All-time best: {{ bestScore || 0 }}
+            </p>
+          </div>
+          <div class="user-card">
+            <div class="label">Signed in as</div>
+            <div class="user-score only">
+              <span class="hint-index">{{ username }}</span>
+              <span class="hint-text">Score {{ score }}</span>
+            </div>
+            <button type="button" class="ghost" (click)="backToMenu()">Main menu</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="game-card" *ngIf="country; else loadingState">
+        <div class="emoji-panel">
+          <div class="glow"></div>
+          <div class="emoji" [class.pulse]="loadingCountry || checkingAnswer">
+            {{ country?.emoji || '❓' }}
+          </div>
+          <p class="prompt">Which country does this point to?</p>
+        </div>
+
+        <div class="content">
+          <div class="meta-row">
+            <span class="pill">Hints</span>
+            <span class="meta-text">{{ hints.length ? hints.length + ' clues' : 'Trust your instincts' }}</span>
+          </div>
+
+          <div class="hints">
+            <div *ngFor="let hint of hints; let i = index" class="hint-row">
+              <span class="hint-index">0{{ i + 1 }}</span>
+              <span class="hint-text">{{ hint }}</span>
+            </div>
+            <p *ngIf="!hints.length" class="hint-row muted">
+              <span class="hint-index">00</span>
+              <span class="hint-text">No hints provided. Go with your gut!</span>
+            </p>
+          </div>
+
+          <form class="controls" (ngSubmit)="submitGuess()">
+            <label class="input-label">Pick the country</label>
+            <div class="choices">
+              <button
+                type="button"
+                class="choice"
+                *ngFor="let option of options"
+                [class.active]="option === selectedOption"
+                [disabled]="loadingCountry || checkingAnswer"
+                (click)="selectedOption = option; submitGuess()"
+              >
+                {{ option }}
+              </button>
+            </div>
+
+            <div class="actions">
+              <button type="button" class="ghost" (click)="loadQuestion()" [disabled]="loadingCountry">
+                {{ loadingCountry ? 'Fetching...' : 'New emoji' }}
+              </button>
+              <span *ngIf="statusMessage" class="status" [ngClass]="status">
+                {{ statusMessage }}
+              </span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="leaderboard" *ngIf="leaderboard?.length">
+        <div class="leaderboard-header">
+          <h2>Leaderboard</h2>
+          <button type="button" class="ghost" (click)="refreshLeaderboard()">Refresh</button>
+        </div>
+        <div class="leaderboard-list">
+          <div class="leaderboard-row" *ngFor="let entry of leaderboard; let i = index" [class.me]="entry.username.toLowerCase() === username.toLowerCase()">
+            <span class="rank">#{{ i + 1 }}</span>
+            <span class="name">{{ entry.username }}</span>
+            <span class="score">{{ entry.totalScore }}</span>
+          </div>
+        </div>
+      </section>
+
+      <ng-template #loadingState>
+        <div class="loading-card">
+          <div class="spinner"></div>
+          <p>Loading a fresh emoji clue...</p>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+</ng-container>
+</ng-container>
+
+<ng-template #adminPage>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="top-row">
+        <div>
+          <div class="badge">Admin</div>
+          <h1>Manage questions & scores</h1>
+          <p class="lede">Admins can add new emoji questions and view the full leaderboard. Gameplay is disabled.</p>
+        </div>
+        <div class="user-card">
+          <div class="label">Signed in as</div>
+          <div class="user-score only">
+            <span class="hint-index">{{ username }}</span>
+            <span class="hint-text">Role: Admin</span>
+          </div>
+          <button type="button" class="ghost" (click)="switchAccount()">Switch account</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="admin-panel">
+      <div class="admin-header">
+        <div>
+          <h2>Admin dashboard</h2>
+          <p class="lede">Add new emoji questions and review the complete leaderboard.</p>
+        </div>
+        <div class="actions">
+          <button type="button" class="ghost" (click)="loadAdminLeaderboard()" [disabled]="adminLoading">
+            {{ adminLoading ? 'Loading...' : 'Refresh data' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="admin-grid">
+        <div class="admin-card">
+          <div class="meta-row">
+            <span class="pill">Add a question</span>
+            <span class="meta-text">Set a difficulty and hints</span>
+          </div>
+          <div class="admin-form">
+            <label class="input-label">Country name</label>
+            <input
+              name="adminCountryName"
+              [(ngModel)]="adminCountry.name"
+              placeholder="e.g., Iceland"
+              autocomplete="off"
+            />
+
+            <label class="input-label">Emoji</label>
+            <input
+              name="adminCountryEmoji"
+              [(ngModel)]="adminCountry.emoji"
+              placeholder="Country emoji or flag"
+              autocomplete="off"
+            />
+
+            <label class="input-label">Hints (separate with ; or ,)</label>
+            <textarea
+              name="adminCountryHints"
+              rows="3"
+              [(ngModel)]="adminCountry.hints"
+              placeholder="Volcanoes and glaciers; Geysers; Blue Lagoon"
+            ></textarea>
+
+            <label class="input-label">Difficulty</label>
+            <select name="adminCountryDifficulty" [(ngModel)]="adminCountry.difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+              <option value="legend">Legend</option>
+            </select>
+          </div>
+          <div class="actions">
+            <button type="button" class="primary compact" (click)="addAdminCountry()" [disabled]="adminSaving">
+              {{ adminSaving ? 'Saving...' : 'Add question' }}
+            </button>
+            <span *ngIf="adminMessage" class="status" [ngClass]="adminStatus">{{ adminMessage }}</span>
+          </div>
+        </div>
+
+        <div class="leaderboard admin" *ngIf="adminLeaderboard?.length">
+          <div class="leaderboard-header">
+            <h3>Full leaderboard</h3>
+            <span class="meta-text">{{ adminLeaderboard.length }} players</span>
+          </div>
+          <div class="leaderboard-list">
+            <div class="leaderboard-row" *ngFor="let entry of adminLeaderboard; let i = index" [class.me]="entry.username.toLowerCase() === username.toLowerCase()">
+              <span class="rank">#{{ i + 1 }}</span>
+              <span class="name">{{ entry.username }}</span>
+              <span class="score">{{ entry.totalScore }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="leaderboard admin" *ngIf="!adminLeaderboard?.length && !adminLoading">
+          <div class="leaderboard-header">
+            <h3>Full leaderboard</h3>
+            <button type="button" class="ghost" (click)="loadAdminLeaderboard()">Load</button>
+          </div>
+          <p class="meta-text">No scores yet.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-template>
+
+<ng-template #registrationPage>
+  <div class="landing">
+    <div class="overlay-card">
+      <div class="badge">Welcome</div>
+      <h2>{{ authMode === 'register' ? 'Create account' : 'Sign in' }}</h2>
+      <p class="lede">Use a username and password to track your high score. You can switch accounts anytime.</p>
+      <div class="user-input overlay-input">
+        <input
+          id="usernameOverlay"
+          name="usernameOverlay"
+          [(ngModel)]="username"
+          (keyup.enter)="saveUsername()"
+          placeholder="e.g., emoji_champ"
+          autocomplete="off"
+        />
+        <input
+          id="passwordOverlay"
+          name="passwordOverlay"
+          type="password"
+          [(ngModel)]="password"
+          (keyup.enter)="saveUsername()"
+          placeholder="Password"
+          autocomplete="off"
+        />
+        <button type="button" class="primary" (click)="saveUsername()">
+          {{ authMode === 'register' ? 'Register & Play' : 'Login & Play' }}
+        </button>
+      </div>
+      <div class="error" *ngIf="usernameError">{{ usernameError }}</div>
+      <div class="auth-switch">
+        <span>{{ authMode === 'register' ? 'Already have an account?' : 'New here?' }}</span>
+        <button type="button" class="ghost" (click)="authMode = authMode === 'register' ? 'login' : 'register'">
+          {{ authMode === 'register' ? 'Switch to login' : 'Switch to register' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
