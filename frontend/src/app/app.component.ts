@@ -50,21 +50,11 @@ export class AppComponent implements OnInit {
     this.username = localStorage.getItem('countryGuessUser') || '';
     this.password = localStorage.getItem('countryGuessPass') || '';
     const savedLevel = localStorage.getItem('countryGuessLevel') as typeof this.level;
-    const savedRole = localStorage.getItem('countryGuessRole') as 'PLAYER' | 'ADMIN' | null;
     if (savedLevel) {
       this.level = savedLevel;
     }
-    if (savedRole) {
-      this.role = savedRole === 'ADMIN' ? 'ADMIN' : 'PLAYER';
-    }
     if (this.username && this.password) {
-      this.usernameReady = true;
-      this.view = this.isAdmin ? 'admin' : 'welcome';
-      if (this.isAdmin) {
-        this.loadAdminLeaderboard();
-      } else {
-        this.refreshLeaderboard();
-      }
+      this.resumeSession();
     }
   }
 
@@ -208,6 +198,41 @@ export class AppComponent implements OnInit {
     return this.role === 'ADMIN';
   }
 
+  private resumeSession(): void {
+    this.scoreService.login(this.username, this.password).subscribe({
+      next: (user) => {
+        this.usernameReady = true;
+        this.usernameError = '';
+        this.bestScore = user.totalScore;
+        this.applyRole(user.role);
+        this.view = this.isAdmin ? 'admin' : 'welcome';
+        if (this.isAdmin) {
+          this.loadAdminLeaderboard();
+        } else {
+          this.refreshLeaderboard();
+        }
+      },
+      error: () => {
+        this.handleSessionExpired();
+      }
+    });
+  }
+
+  private handleSessionExpired(): void {
+    this.usernameReady = false;
+    this.usernameError = 'Session expired. Please sign in again.';
+    this.bestScore = 0;
+    this.score = 0;
+    this.clearSavedSession();
+  }
+
+  private clearSavedSession(): void {
+    localStorage.removeItem('countryGuessUser');
+    localStorage.removeItem('countryGuessPass');
+    localStorage.removeItem('countryGuessLevel');
+    localStorage.removeItem('countryGuessRole');
+  }
+
   private applyRole(role?: string | null): void {
     this.role = role && role.toUpperCase() === 'ADMIN' ? 'ADMIN' : 'PLAYER';
     localStorage.setItem('countryGuessRole', this.role);
@@ -228,8 +253,8 @@ export class AppComponent implements OnInit {
       return;
     }
     this.score = Math.max(0, this.score + this.pointsFor(correct));
-    const bestCandidate = Math.max(this.bestScore, this.score);
-    this.scoreService.submitScore(this.username, bestCandidate).subscribe({
+    const currentRun = this.score;
+    this.scoreService.submitScore(this.username, currentRun).subscribe({
       next: (score) => {
         this.bestScore = score.totalScore;
         this.refreshLeaderboard();
@@ -339,10 +364,7 @@ export class AppComponent implements OnInit {
     this.adminStatus = 'idle';
     this.adminLoading = false;
     this.adminSaving = false;
-    localStorage.removeItem('countryGuessUser');
-    localStorage.removeItem('countryGuessPass');
-    localStorage.removeItem('countryGuessLevel');
-    localStorage.removeItem('countryGuessRole');
+    this.clearSavedSession();
     this.statusMessage = '';
     this.status = 'idle';
     this.view = 'welcome';
